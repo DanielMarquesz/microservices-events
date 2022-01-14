@@ -1,7 +1,5 @@
 version: '3'
 services:
-  db: 
-    image: mongo:3.7
   to-do:
     image: node:14.0
     container_name: to-do

@@ -9,8 +9,8 @@ const listenTodoMessages = async () => {
       console.log('olhando...')
       // @ts-ignore
       const result = JSON.parse(message.content)      
-
-      const id = result.result.user_id
+      console.log(result)
+      const id = result.task.user_id
       usuario = await userRepository.getByUserId(id)
 
       // @ts-ignore
@@ -19,7 +19,7 @@ const listenTodoMessages = async () => {
       console.log("Enviado", usuario)      
       return usuario 
     })    
-  }, 1500)
+  }, 500)
   await RabbitmqServer.closeChannel()
   
   return usuario

@@ -30,21 +30,22 @@ class ToDoController {
     const { 
       id
     } = req.params
+
+    let user
   
-    let result = await todoRepository.getById(id)
+    const task = await todoRepository.getById(id)
+
     await rabbitMqInstance.start()
-    await rabbitMqInstance.publishInQueue('todo', JSON.stringify({result}))    
-    await rabbitMqInstance.closeChannel()
-    // await rabbitMqInstance.consumeQueue('user', (message) => {
-    //   // @ts-ignore
-    //   result.message = JSON.parse(message.content)
-    //   console.log(message)
-    //   console.log('postback recebido: ', result)
-    // })
-    // console
-    // console.log('postback recebido: ', result)
+    await rabbitMqInstance.publishInQueue('todo', JSON.stringify({task}))    
+    await rabbitMqInstance.consumeQueue('user', async (message) => {
+      // @ts-ignore
+      user = JSON.parse(message.content)
+      console.log('postback recebido: ', task)
+    })
+    
     res.json({
-      result 
+      task,
+      user
     })
   }
 
