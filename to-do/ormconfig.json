@@ -1,0 +1,22 @@
+{
+  "type": "mongodb",
+  "host": "localhost",
+  "port": 27017,
+  "username": "DanielAdmin",
+  "password": "1234",
+  "database": "Notebook",
+  "synchronize": false,
+  "logging": false,
+  "cli": {
+     "migrationsDir": "src/config/database/migrations"
+  },
+  "entities": [
+     "src/config/database/entity/**/*.ts"
+  ],
+  "migrations": [
+     "src/config/database/migrations/**/*.ts"
+  ],
+  "subscribers": [
+     "src/config/database/subscriber/**/*.ts"
+  ]
+}

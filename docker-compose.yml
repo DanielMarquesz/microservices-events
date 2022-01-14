@@ -1,0 +1,32 @@
+version: '3'
+services:
+  db: 
+    image: mongo:3.7
+  to-do:
+    image: node:14.0
+    container_name: to-do
+    volumes: 
+      - ./to-do:/to-do
+    ports:
+      - 3001:3001
+    command: bash -c "cd /to-do && npm i && npm start"
+  users:
+    image: node:14.0
+    container_name: users
+    volumes: 
+      - ./users:/users
+    ports:
+      - 3000:3000
+    command: bash -c "cd /users && npm i && npm start"
+  rabbitmq:
+    image: "rabbitmq:3.8-management-alpine"
+    container_name: rabbitmq
+    hostname: rabbitmq
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    volumes:
+      - "./.rabbitmq_data:/var/lib/rabbitmq/mnesia"
+networks:
+  rabbitmq_go_net:
+    driver: bridge
