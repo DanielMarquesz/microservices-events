@@ -38,7 +38,7 @@ class UserRepository {
       // @ts-ignore - Olhar
       where: { id }
     })
-    console.log('consultado')
+    console.log('Olhando DB User')
     return result
   }
 
