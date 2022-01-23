@@ -36,7 +36,8 @@ class RabbitmqServer {
     return this.channel.consume(queue, (message) => { 
       console.log('[to-do] Consumindo ...')        
       callback(message)
-      this.channel.ack(message)            
+      this.channel.ack(message)
+      this.channel.close()     
     })
   }
 

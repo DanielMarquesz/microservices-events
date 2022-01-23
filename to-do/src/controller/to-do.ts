@@ -41,15 +41,30 @@ class ToDoController {
     await rabbitMqInstance.consumeQueue('user', async (message) => {
       // @ts-ignore
       user = await JSON.parse(message.content)
-      console.log("CONTEÚDO:", user)
+      console.log("CONTEÚDO:", user)      
       console.log('postback recebido: ', task)
-    })
+
+      // (() => {
+      //   const daniel =new Promise((resolve, reject) => {
+      //     setTimeout(() => '', 100)
+      //   })
+      // })()
+      // @ts-ignore
+      task.user_name = user.name
+      // @ts-ignore
+      task.birthdate = user.birthdate
+
+      res.json({
+        task,
+      })     
+    })            
 
     // await rabbitMqInstance.closeChannel()
-    res.json({
-      task,
-      user
-    })
+    // res.status(200)
+    // res.json({
+    //   task,
+    //   user
+    // })
   }
 
   async update(req: Request, res: Response, next: NextFunction): Promise<void> {
