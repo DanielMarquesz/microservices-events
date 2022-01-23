@@ -33,11 +33,16 @@ class RabbitmqServer {
   }
 
   async consumeQueue(queue: string, callback: (message: Message) => void): Promise<Replies.Consume>{
-    return this.channel.consume(queue, (message) => {      
-      callback(message)    
+    return this.channel.consume(queue, (message) => { 
+      console.log('[to-do] Consumindo ...')        
+      callback(message)
       this.channel.ack(message)
-      this.conn.close()
+      this.channel.close()     
     })
+  }
+
+  async closeChannel(): Promise<void> {
+    await this.conn.close
   }
 }
 

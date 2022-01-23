@@ -13,9 +13,10 @@ app.use(morgan('dev'))
 app.use(router)
 
 app.listen(3000, () => {
+  postBackUsersIds()
   console.log('The server is running on port 3000')  
 })
 
-postBackUsersIds()
+
 
 export { app }

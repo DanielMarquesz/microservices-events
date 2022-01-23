@@ -6,21 +6,16 @@ const listenTodoMessages = async () => {
   await RabbitmqServer.start()
   setInterval(async () =>{    
     await RabbitmqServer.consumeQueue('todo', async (message) =>{
-      console.log('olhando...')
-      // @ts-ignore
-      const result = JSON.parse(message.content)      
+      console.log('[User] Consumindo ...')
+      const result = JSON.parse(message.content.toString())      
       console.log(result)
       const id = result.task.user_id
       usuario = await userRepository.getByUserId(id)
-
-      // @ts-ignore
       await RabbitmqServer.publishInQueue('user', JSON.stringify(usuario))
 
-      console.log("Enviado", usuario)      
-      return usuario 
+      console.log("[User] Publicado na de volta queue ", usuario)
     })    
-  }, 500)
-  await RabbitmqServer.closeChannel()
+  }, 100)
   
   return usuario
 }
