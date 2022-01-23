@@ -19,7 +19,7 @@ const listenTodoMessages = async () => {
       console.log("[User] Publicado na de volta queue ", usuario)      
       return usuario 
     })    
-  }, 500)
+  }, 100)
   
   return usuario
 }
