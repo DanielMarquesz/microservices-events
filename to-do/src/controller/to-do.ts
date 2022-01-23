@@ -39,32 +39,15 @@ class ToDoController {
     await rabbitMqInstance.publishInQueue('todo', JSON.stringify({task}))
        
     await rabbitMqInstance.consumeQueue('user', async (message) => {
-      // @ts-ignore
-      user = await JSON.parse(message.content)
+      user = await JSON.parse(message.content.toString())
       console.log("CONTEÚDO:", user)      
       console.log('postback recebido: ', task)
-
-      // (() => {
-      //   const daniel =new Promise((resolve, reject) => {
-      //     setTimeout(() => '', 100)
-      //   })
-      // })()
-      // @ts-ignore
       task.user_name = user.name
-      // @ts-ignore
       task.birthdate = user.birthdate
-
       res.json({
         task,
       })     
     })            
-
-    // await rabbitMqInstance.closeChannel()
-    // res.status(200)
-    // res.json({
-    //   task,
-    //   user
-    // })
   }
 
   async update(req: Request, res: Response, next: NextFunction): Promise<void> {
@@ -72,11 +55,8 @@ class ToDoController {
     const {
       id
     } = req.params    
-
     const data: IToDo = req.body
-
     await todoRepository.updated(id, data)
-
     res.json({
       updated: data
     })
@@ -87,15 +67,12 @@ class ToDoController {
     const {
       id
     } = req.params
-
     try {
       await todoRepository.delete(id)   
-
       res.json({
         message: 'Deleted',
         id,      
       })
-
     } catch (error) {      
       next(error)
     }     

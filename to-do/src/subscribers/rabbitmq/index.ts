@@ -41,7 +41,7 @@ class RabbitmqServer {
     })
   }
 
-  async closeChannel() {
+  async closeChannel(): Promise<void> {
     await this.conn.close
   }
 }
