@@ -1,51 +1,57 @@
 import { prisma } from '../../config/database/index'
 import { IToDo } from '../../models/interfaces/to-do'
 import { IOneToDoResponse } from '../../models/interfaces/onde-to-do-response'
-
+import { logger } from '../../middlewares/logger'
 class ToDoRepository {
 
   async create(data: IToDo) {
-    try {
-      await prisma.to_do.create({
-        data
-      })
-    } catch(error) {
-      throw error
-    }
+    logger.debug({
+      message:'Creating to-do in Database'
+    })
+    await prisma.to_do.create({
+      data
+    })
   }
 
   async get() {
+    logger.debug({
+      message:'Getting all to-do items in Database'
+    })
     const result = await prisma.to_do.findMany()
     return result
   }
 
   async getById(id: string): Promise<IOneToDoResponse> {
+    logger.debug({
+      message:'Getting to-do by id in Database'
+    })
     const result = await prisma.to_do.findFirst({
       where: { id }
     })
-
     return result
   }
 
   async updated(id: string, data: IToDo) {
-    try {
-      await prisma.to_do.update({
-        where: { 
-          id
-        },
-        data
-      })
-    } catch(error) {
-      throw error
-    }
+    logger.debug({
+      message:'Updating to-do by id in Database'
+    })
+    await prisma.to_do.update({
+      where: {
+        id
+      },
+      data
+    })
   }
 
-  async delete(id: string) { 
+  async delete(id: string) {
+    logger.debug({
+      message:'Deleting to-do by id in Database'
+    })
     await prisma.to_do.delete({
-      where: { 
+      where: {
         id
       }
-    })        
+    })
   }
 }
 
