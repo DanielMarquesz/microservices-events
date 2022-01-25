@@ -10,35 +10,50 @@ class UserController {
  
   async create(req: Request, res: Response, next: NextFunction) {
 
-    const data: IUser = req.body    
+    try {
+      const data: IUser = req.body    
     
-    await userRepository.create(data)
-
-    res.json({
-      created: data
-    })
+      await userRepository.create(data)
+  
+      res.json({
+        created: data
+      })
+    } catch (error) {
+      console.log(error)
+      next(error)
+    }
   }
 
   async get(req: Request, res: Response, next: NextFunction) {        
     
-    const result = await userRepository.get()
+    try {
+      const result = await userRepository.get()
 
-    res.json({
-      result
-    })
+      res.json({
+        result
+      })
+    } catch (error) {
+      console.log(error)
+      next(error)
+    }
   }
 
   async getById(req: Request, res: Response, next: NextFunction) {        
 
-    const {
-      id
-    } = req.params
+    try {
+      const {
+        id
+      } = req.params
+    
+      const result = await userRepository.getById(id)    
   
-    const result = await userRepository.getById(id)    
-
-    res.json({
-      result 
-    })
+      res.json({
+        result 
+      })
+    } catch (error) {
+      console.log(error)
+      next(error)
+    }
   }
 
   async update(req: Request, res: Response, next: NextFunction) {

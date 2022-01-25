@@ -34,7 +34,6 @@ class UserRepository {
     const result = await prisma.users.findFirst({
       where: { id }
     })
-    console.log('Olhando DB User')
     return result
   }
 

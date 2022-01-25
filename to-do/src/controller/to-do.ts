@@ -40,8 +40,6 @@ class ToDoController {
        
     await rabbitMqInstance.consumeQueue('user', async (message) => {
       user = await JSON.parse(message.content.toString())
-      console.log("CONTEÚDO:", user)      
-      console.log('postback recebido: ', task)
       task.user_name = user.name
       task.birthdate = user.birthdate
       res.json({
