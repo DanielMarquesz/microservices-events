@@ -1,20 +1,13 @@
 import { prisma } from '../../config/database/index'
 import IUser from '../../models/interfaces/user'
-import RabbitmqServer from '../../config/rabbitmq'
-
-
+import { NotFoundError } from '../../middlewares/error/errors'
 
 class UserRepository {
 
-  async create(data: IUser) {    
-
-    try {
-      await prisma.users.create({
-        data
-      })
-    } catch (error) {
-      throw error
-    }
+  async create(data: IUser) {
+    await prisma.users.create({
+      data
+    })
   }
 
   async get() {
@@ -26,7 +19,9 @@ class UserRepository {
     const result = await prisma.users.findFirst({
       where: { id }
     })
-
+    if(!result){
+      throw NotFoundError
+    }
     return result
   }
 
@@ -38,24 +33,20 @@ class UserRepository {
   }
 
   async updated(id: string, data: IUser) {
-    try {
-      await prisma.users.update({
-        where: { 
-          id
-        },
-        data
-      })
-    } catch (error) {
-      throw error
-    }
+    await prisma.users.update({
+      where: {
+        id
+      },
+      data
+    })
   }
 
-  async delete(id: string) { 
+  async delete(id: string) {
     await prisma.users.delete({
-      where: { 
+      where: {
         id
       }
-    })        
+    })
   }
 }
 

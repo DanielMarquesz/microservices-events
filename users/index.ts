@@ -4,6 +4,8 @@ import morgan from 'morgan'
 import { router } from './src/routes'
 import { prismaClient } from './src/config/database/index'
 import { postBackUsersIds } from './src/utils/workers/postBackUsersIds'
+import generalErrors  from './src/middlewares/error/handler'
+import { toHash } from 'ajv/dist/compile/util'
 
 const app = express()
 
@@ -14,14 +16,15 @@ app.use(morgan('dev'))
 app.use(router)
 
 app.listen(3000, () => {
-  postBackUsersIds()
+  try {
+    postBackUsersIds()
+  } catch (error) {
+    throw error
+  }
   console.log('The server is running on port 3000')  
 })
+
 //@ts-ignore
-app.use((error: Error, req: Request, res: Response, next: NextFunction) => {  
-  console.log(error)
-  //@ts-ignore
-  res.status(500)
-})
+app.use(generalErrors)
 
 export { app }
