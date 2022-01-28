@@ -1,34 +1,44 @@
-// import express from "express"
+import {
+  Request,
+  Response
+} from 'express'
+import { IError } from '../../models/interfaces/error'
+import { NotFoundError } from './types'
 
-// const app = express()
+const generalErrors = async (
+  err: IError,
+  req: Request,
+  res: Response,
+) => {
 
-class Handler {  
-
-  async generalErrors (error:any, req:any, res:any, next:any){    
-  
-    if(error.meta.cause === 'Record to delete does not exist.'){
-      res.status(404).json({
-        message: 'Record not found to delete.'
-      })
-
-      next()
-    }  
-  
-    res.status(500).json({
-      message: error.meta.cause
-    })
-
-    next()
-  }
-
-  async routeErrors (req: any, res:any, next: any) {
-    
-    const error = new Error("Route not found")
-
-    res.status(404).json({
-      error: error.message
+  if(err.message === NotFoundError.message){
+    res.send(404).json({
+      message: err.message
     })
   }
+
+  if(err.status >= 500 || err.status <= 599){
+    res.send(err.status).json({
+      message: err.message
+    })
+  }
+
+  if(err.status >= 400 || err.status <= 499){
+    res.send(err.status).json({
+      message: err.message
+    })
+  }
+
+  if(err.status >= 300 || err.status <= 308){
+    res.send(err.status).json({
+      message: err.message
+    })
+  }
+
+  res.status(500).json({
+    error: err,
+    message: err.message
+  })
 }
 
-export = new Handler()
+export default generalErrors

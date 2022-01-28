@@ -7,7 +7,7 @@ async function prismaClient() {
   console.log('Database is up!')
 }
 
-export { 
+export {
   prismaClient,
   prisma
-} 
+}
