@@ -1,26 +1,35 @@
-import { NotFoundError } from '../../middlewares/error/errors'
+import {
+  Request,
+  Response
+} from 'express'
+import { IError } from '../../models/interfaces/error'
+import { NotFoundError } from './types'
 
-const generalErrors = async (err:any, req:any, res:any, next:any) => {    
-  
-  if(err.message === NotFoundError.message ){
+const generalErrors = async (
+  err: IError,
+  _req: Request,
+  res: Response,
+) => {
+
+  if(err.message === NotFoundError.message){
     res.send(404).json({
       message: err.message
     })
-  }  
+  }
 
-  if(err.status >= 500 && err.status <= 599){
+  if(err.status >= 500 || err.status <= 599){
     res.send(err.status).json({
       message: err.message
     })
   }
 
-  if(err.status >= 400 && err.status <= 499){
+  if(err.status >= 400 || err.status <= 499){
     res.send(err.status).json({
       message: err.message
     })
   }
 
-  if(err.status >= 300 && err.status <= 308){
+  if(err.status >= 300 || err.status <= 308){
     res.send(err.status).json({
       message: err.message
     })
@@ -32,4 +41,4 @@ const generalErrors = async (err:any, req:any, res:any, next:any) => {
   })
 }
 
-export default generalErrors 
+export default generalErrors

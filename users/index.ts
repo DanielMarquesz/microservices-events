@@ -1,11 +1,10 @@
-import express, { json, NextFunction } from 'express'
+import express, { json } from 'express'
 import 'express-async-errors'
 import morgan from 'morgan'
 import { router } from './src/routes'
 import { prismaClient } from './src/config/database/index'
 import { postBackUsersIds } from './src/utils/workers/postBackUsersIds'
-import generalErrors  from './src/middlewares/error/handler'
-import { toHash } from 'ajv/dist/compile/util'
+import errorHandler  from './src/middlewares/error/handler'
 
 const app = express()
 
@@ -16,15 +15,10 @@ app.use(morgan('dev'))
 app.use(router)
 
 app.listen(3000, () => {
-  try {
-    postBackUsersIds()
-  } catch (error) {
-    throw error
-  }
-  console.log('The server is running on port 3000')  
+  postBackUsersIds()
+  console.log('The server is running on port 3000')
 })
 
-//@ts-ignore
-app.use(generalErrors)
+app.use(errorHandler)
 
 export { app }
