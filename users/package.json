@@ -7,7 +7,7 @@
   "scripts": {
     "lint": "eslint ./index.ts",
     "start": "nodemon ./index.ts lint",
-    "test": "env-cmd ../src/config/envs/test.env jest --watchAll --runInBand --detectOpenHandlers"
+    "test": "env-cmd ../src/config/envs/test.env jest --config --runInBand --detectOpenHandles"
   },
   "jest": {
     "testEnviroment": "node"
