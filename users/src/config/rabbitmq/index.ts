@@ -1,9 +1,10 @@
-import { 
+import {
   Connection,
   Channel,
   connect,
   Message,
-  Replies
+  Replies,
+  ConsumeMessage
 } from 'amqplib'
 
 class RabbitmqServer {
@@ -25,14 +26,16 @@ class RabbitmqServer {
     exchange: string,
     routingKey: string,
     message: string):Promise<boolean>{
-      return this.channel.publish(
-        exchange,
-        routingKey,
-        Buffer.from(message)
-      )
+    return this.channel.publish(
+      exchange,
+      routingKey,
+      Buffer.from(message)
+    )
   }
 
-  async consumeQueue(queue: string, callback: (message: Message) => void): Promise<Replies.Consume>{
+  async consumeQueue(queue: string, callback:
+    (message: Message | ConsumeMessage) => void):
+   Promise<Replies.Consume>{
     return this.channel.consume(queue, (message) => {
       callback(message)
       this.channel.ack(message)

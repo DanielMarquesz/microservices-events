@@ -1,0 +1,9 @@
+{
+  "verbose": true,
+  "preset":"ts-jest",
+  "moduleFileExtensions": [
+    "ts",
+    "tsx",
+    "js"
+  ]
+}

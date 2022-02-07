@@ -4,10 +4,10 @@ const prisma = new PrismaClient()
 
 async function prismaClient() {
   await prisma.$connect()
-  console.log('Database is up!')
+  // console.log('Database is up!')
 }
 
-export { 
+export {
   prismaClient,
   prisma
-} 
+}

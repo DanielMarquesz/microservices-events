@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "target": "es6",
-    "module": "commonjs",                                
+    "target": "esnext",
+    "module": "commonjs",        
     "esModuleInterop": true,                             
     "forceConsistentCasingInFileNames": true,         
     "strict": true,
@@ -9,6 +9,5 @@
     "skipLibCheck": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "noImplicitAny": true,
   }
 }
