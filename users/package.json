@@ -6,8 +6,8 @@
   "main": "index.ts",
   "scripts": {
     "lint": "eslint ./index.ts",
-    "start": "nodemon ./index.ts lint",
-    "test": "env-cmd ../src/config/envs/test.env jest --config --runInBand --detectOpenHandles"
+    "start": "env-cmd ./src/config/envs/dev.env nodemon ./index.ts lint",
+    "test": "env-cmd ./src/config/envs/test.env jest"
   },
   "jest": {
     "testEnviroment": "node"

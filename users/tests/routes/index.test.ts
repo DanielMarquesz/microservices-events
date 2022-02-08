@@ -1,11 +1,10 @@
-import { app } from '../../index'
+import { app } from '../../src/config/server'
 import request from 'supertest'
 
-
 describe('Test all routes', () => {
-// Criar filas para tratativa de teste
+  jest.setTimeout(30000)
   it('Should get all users in db', async () => {
-    const response = await request(app._router).get('/users')
+    const response = await request(app).get('/users')
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     //@ts-ignore
     expect(JSON.parse(response.text)).toEqual({
@@ -22,5 +21,6 @@ describe('Test all routes', () => {
         },
       ],
     })
+
   })
 })
