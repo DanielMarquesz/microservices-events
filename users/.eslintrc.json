@@ -24,6 +24,8 @@
         "indent": ["error", 2],
         "space-in-parens": ["error", "never"],
         "object-curly-spacing": ["error", "always"],
-        "no-trailing-spaces": "error"
+        "no-trailing-spaces": "error",
+        "@typescript-eslint/ban-ts-ignore": "off",
+        "@typescript-eslint/ban-ts-comment": "off"
     }
 }

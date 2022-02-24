@@ -2,12 +2,12 @@ import express, { json } from 'express'
 import 'express-async-errors'
 import morgan from 'morgan'
 import { router } from '../routes'
-import { prismaClient } from '../config/database/index'
+// import { prismaClient } from '../config/database/index'
 import errorHandler  from '../middlewares/error/handler'
 
 const app = express()
 
-prismaClient()
+// prismaClient()
 
 app.use(json())
 app.use(morgan('dev'))

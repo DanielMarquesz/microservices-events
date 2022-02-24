@@ -21,10 +21,10 @@ class UserController {
       await userRepository.create(data)
 
       logger.info({
-        message:'Request sent for create user'
+        message:'Response recievied for create user'
       })
 
-      res.json({
+      res.status(201).json({
         created: data
       })
     } catch (error) {
