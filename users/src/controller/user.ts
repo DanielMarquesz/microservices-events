@@ -6,6 +6,7 @@ import {
 import IUser from '../models/interfaces/user'
 import userRepository from '../repositories/user'
 import { logger } from '../middlewares/logger'
+import authUtil from '../utils/auth/bcrypt/index'
 
 class UserController {
 
@@ -17,16 +18,14 @@ class UserController {
 
     try {
       const data: IUser = req.body
-
+      //@ts-ignore
       await userRepository.create(data)
 
       logger.info({
         message:'Response recievied for create user'
       })
 
-      res.status(201).json({
-        created: data
-      })
+      res.sendStatus(201)
     } catch (error) {
       next(error)
     }
@@ -130,6 +129,32 @@ class UserController {
       })
 
     } catch (error) {
+      next(error)
+    }
+  }
+
+  async sigin(req: Request, res: Response, next: NextFunction) {
+
+    logger.debug({
+      message:'Request for sigin'
+    })
+
+    try {
+      const {
+        email,
+        password
+      } = req.body
+
+      const result = await authUtil.comparePassword(password, email)
+
+      logger.info({
+        message:'Response for sigin'
+      })
+
+      res.json(result).status(200)
+
+    } catch (error) {
+      console.log(error)
       next(error)
     }
   }

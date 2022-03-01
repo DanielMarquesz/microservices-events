@@ -1,14 +1,15 @@
 import { prisma } from '../../config/database/index'
 import IUser from '../../models/interfaces/user'
-import { NotFoundError } from '../../middlewares/error/types'
+import authUtil from '../../utils/auth/bcrypt'
 import { logger } from '../../middlewares/logger'
 
 class UserRepository {
-
   async create(data: IUser) {
     logger.debug({
       message:'Creating a user in Database'
     })
+
+    data.password =  await authUtil.hashPassword(data.password)
 
     await prisma.users.create({
       data
@@ -33,7 +34,7 @@ class UserRepository {
       where: { id }
     })
     if(!result){
-      throw NotFoundError
+      throw new Error('User not found!')
     }
     return result
   }
@@ -61,6 +62,20 @@ class UserRepository {
         id
       }
     })
+  }
+
+  async getByEmail(email: string) {
+    logger.debug({
+      message:'Getting user by email in Database'
+    })
+
+    const result = await prisma.users.findFirst({
+      where: { email }
+    })
+    if(!result){
+      throw new Error('User not found!')
+    }
+    return result
   }
 }
 

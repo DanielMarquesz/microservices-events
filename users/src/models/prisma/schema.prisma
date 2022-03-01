@@ -9,7 +9,9 @@ generator client {
 }
 
 model users {
-  id          String  @id @default(uuid()) @map("_id") 
-  name        String
+  id          String  @id @default(uuid()) @map("_id")
+  email       String  @unique
+  full_name   String  
   birthdate   String  
+  password    String
 }
