@@ -38,14 +38,14 @@ class UserController {
     })
 
     try {
-      const result = await userRepository.get()
+      const users = await userRepository.get()
 
       logger.info({
         message:'Response for get all users'
       })
 
       res.json({
-        result
+        users
       })
     } catch (error) {
       console.log(error)
@@ -64,14 +64,14 @@ class UserController {
         id
       } = req.params
 
-      const result = await userRepository.getById(id)
+      const user = await userRepository.getById(id)
 
       logger.info({
         message:'Response for get one user'
       })
 
       res.json({
-        result
+        user
       })
     } catch (error) {
       console.log(error)

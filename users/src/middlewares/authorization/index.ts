@@ -5,7 +5,7 @@ import {
 } from 'express'
 import jwt from 'jsonwebtoken'
 
-const validateTokens = async (req: Request, res: Response, next: NextFunction) => {
+const validateToken = async (req: Request, res: Response, next: NextFunction) => {
 
   const token = req.headers['x-access-token'] || req.body.token
 
@@ -23,4 +23,4 @@ const validateTokens = async (req: Request, res: Response, next: NextFunction) =
   next()
 }
 
-export default validateTokens
+export default validateToken

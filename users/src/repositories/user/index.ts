@@ -2,12 +2,21 @@ import { prisma } from '../../config/database/index'
 import IUser from '../../models/interfaces/user'
 import authUtil from '../../utils/auth/bcrypt'
 import { logger } from '../../middlewares/logger'
+import Format from '../../utils/format'
 
 class UserRepository {
   async create(data: IUser) {
     logger.debug({
       message:'Creating a user in Database'
     })
+    // Usar metódo get by Email
+    const result = await prisma.users.findFirst({
+      where: { email: data.email }
+    })
+
+    if(result) {
+      throw new Error('Error while creating user!')
+    }
 
     data.password =  await authUtil.hashPassword(data.password)
 
@@ -21,8 +30,11 @@ class UserRepository {
       message:'Getting users in Database'
     })
 
-    const result = await prisma.users.findMany()
-    return result
+    const results = await prisma.users.findMany()
+
+    const formatedResult = Format.responseGet(results)
+
+    return formatedResult
   }
 
   async getById(id: string) {
@@ -36,7 +48,10 @@ class UserRepository {
     if(!result){
       throw new Error('User not found!')
     }
-    return result
+
+    const formatedResult = Format.responseGetOne(result)
+
+    return formatedResult
   }
 
   async updated(id: string, data: IUser) {
