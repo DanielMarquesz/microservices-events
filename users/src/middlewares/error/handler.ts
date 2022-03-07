@@ -17,6 +17,12 @@ const generalErrors = async (
     })
   }
 
+  if(err.message === 'User not found!'){
+    res.send(404).json({
+      message: err.message
+    })
+  }
+
   if(err.status >= 500 || err.status <= 599){
     res.send(err.status).json({
       message: err.message
