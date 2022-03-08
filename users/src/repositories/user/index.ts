@@ -1,5 +1,5 @@
 import { prisma } from '../../config/database/index'
-import IUser from '../../models/interfaces/user'
+import { IUser } from '../../models/interfaces/user'
 import authUtil from '../../utils/auth/bcrypt'
 import { logger } from '../../middlewares/logger'
 import Format from '../../utils/format'

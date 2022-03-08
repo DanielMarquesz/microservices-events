@@ -1,10 +1,12 @@
 import { prisma } from '../../config/database/index'
 import { IToDo } from '../../models/interfaces/to-do'
-import { IOneToDoResponse } from '../../models/interfaces/onde-to-do-response'
+import { IOneToDoResponse } from '../../models/interfaces/to-do'
 import { logger } from '../../middlewares/logger'
 class ToDoRepository {
 
   async create(data: IToDo) {
+
+    console.log(data)
     logger.debug({
       message:'Creating to-do in Database'
     })

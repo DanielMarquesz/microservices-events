@@ -1,8 +1,12 @@
-
+import {
+  IOneUser
+} from '../../models/interfaces/user'
 
 class Format {
 
-  responseGet(results: any[]){
+  // @ts-ignore
+  responseGet(results: unknown){
+    //@ts-ignore
     const formated = results.map((item) =>{
       const {
         id,
@@ -21,7 +25,7 @@ class Format {
     return formated
   }
 
-  responseGetOne(result: any){
+  responseGetOne(result: IOneUser){
     const {
       id,
       full_name,
@@ -35,7 +39,6 @@ class Format {
       email
     }
   }
-
 }
 
 export default new Format()

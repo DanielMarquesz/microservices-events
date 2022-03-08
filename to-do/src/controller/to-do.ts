@@ -16,6 +16,7 @@ class ToDoController {
     })
     try {
       const data: IToDo = req.body
+      data.user_id = res.locals.jwt_token.user.id
       await todoRepository.create(data)
 
       logger.info({
@@ -37,7 +38,7 @@ class ToDoController {
     })
     try {
       const result = await todoRepository.get()
-
+      console.log(res.locals.jwt_token.user)
       logger.info({
         message:'Response recieved for get all to-do items'
       })
@@ -65,12 +66,20 @@ class ToDoController {
 
       const task = await todoRepository.getById(id)
 
+      if(!task) {
+        throw new Error('Task not found!')
+      }
+
       await rabbitMqInstance.start()
       await rabbitMqInstance.publishInQueue('todo', JSON.stringify({ task }))
 
       await rabbitMqInstance.consumeQueue('user', async (message) => {
         user = await JSON.parse(message.content.toString())
-        task.user_name = user.name
+        console.log(user)
+        if(user === 0) {
+          next(new Error('user_id not found'))
+        }
+        task.user_name = user.full_name
         task.birthdate = user.birthdate
 
         logger.info({

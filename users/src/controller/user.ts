@@ -3,7 +3,7 @@ import {
   Request,
   Response
 } from 'express'
-import IUser from '../models/interfaces/user'
+import { IUser } from '../models/interfaces/user'
 import userRepository from '../repositories/user'
 import { logger } from '../middlewares/logger'
 import authUtil from '../utils/auth/bcrypt/index'
