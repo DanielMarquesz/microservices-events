@@ -16,7 +16,7 @@ services:
       - ./users:/users
     ports:
       - 3000:3000
-    command: bash -c "sleep 5 && cd /users && npm i && npm start"
+    command: bash -c "sleep 4 && cd /users && npm i && npm start"
   to-do:
     image: node:14.0
     container_name: to-do
