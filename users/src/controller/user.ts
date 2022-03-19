@@ -7,7 +7,7 @@ import { IUser } from '../models/interfaces/user'
 import userRepository from '../repositories/user'
 import { logger } from '../middlewares/logger'
 import authUtil from '../utils/auth/bcrypt/index'
-
+import validateUserData from './schema'
 class UserController {
 
   async create(req: Request, res: Response, next: NextFunction) {
@@ -18,6 +18,9 @@ class UserController {
 
     try {
       const data: IUser = req.body
+
+      const result = validateUserData(data)
+      console.log(result)
       //@ts-ignore
       await userRepository.create(data)
 
