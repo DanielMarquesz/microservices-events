@@ -15,11 +15,14 @@ class ToDoRepository {
     })
   }
 
-  async get() {
+  async get(user_id: string) {
     logger.debug({
       message:'Getting all to-do items in Database'
     })
-    const result = await prisma.to_do.findMany()
+    const result = await prisma.to_do.findMany({
+      where: { user_id }
+    })
+
     return result
   }
 

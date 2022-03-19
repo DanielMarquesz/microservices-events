@@ -16,6 +16,8 @@ class RabbitmqServer {
   async start(): Promise<void>{
     this.conn = await connect(this.uri)
     this.channel = await this.conn.createChannel()
+    this.channel.assertQueue('users-queue')
+    this.channel.assertQueue('todo-queue')
   }
 
   async publishInQueue(queue: string, message: string): Promise<boolean> {

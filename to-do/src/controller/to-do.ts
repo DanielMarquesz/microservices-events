@@ -37,7 +37,7 @@ class ToDoController {
       message:'Request sent for get all to-do items'
     })
     try {
-      const result = await todoRepository.get()
+      const result = await todoRepository.get(res.locals.jwt_token.user.id)
       console.log(res.locals.jwt_token.user)
       logger.info({
         message:'Response recieved for get all to-do items'
@@ -71,9 +71,9 @@ class ToDoController {
       }
 
       await rabbitMqInstance.start()
-      await rabbitMqInstance.publishInQueue('todo', JSON.stringify({ task }))
+      await rabbitMqInstance.publishInQueue('todo-queue', JSON.stringify({ task }))
 
-      await rabbitMqInstance.consumeQueue('user', async (message) => {
+      await rabbitMqInstance.consumeQueue('users-queue', async (message) => {
         user = await JSON.parse(message.content.toString())
         console.log(user)
         if(user === 0) {
