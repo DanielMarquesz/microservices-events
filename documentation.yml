@@ -1,0 +1,164 @@
+swagger: '2.0'
+info:
+  title: Microservices Communication
+  version: '1.0'
+host: localhost
+basePath: /
+schemes:
+  - http
+tags:
+- name: users
+  description: Service responsable for management of all users.
+paths:
+  /users:
+    get:
+      tags:
+       - 'users'
+      summary: 'List all users in the service.'
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items: 
+              $ref: '#/definitions/Users'
+        '500':
+          description: 'Internal server Error'
+    post:
+      tags:
+       - 'users'
+      summary: 'Create a new user in the service.'
+      parameters:
+      - in: body
+        name: body
+        description: ''
+        required: true
+        schema:
+          $ref: '#/definitions/UsersRegister'
+      responses:
+        '201':
+          description: 'Created'
+        '400':
+          description: 'Validation error'
+        '500':
+          description: 'Internal server Error'
+
+  /users/login:
+    post:
+      tags:
+       - 'users'
+      summary: 'Should authenticate a user.'
+      parameters:
+      - in: body
+        name: body
+        description: ''
+        required: true
+        schema:
+          $ref: '#/definitions/UsersLogin'
+      responses:
+        '200':
+          description: 'OK'
+        '400':
+          description: 'Validation error'
+        '500':
+          description: 'Internal server Error'
+
+  /users/{id}:
+    get:
+      tags:
+       - 'users'
+      summary: 'List one specific user by id.'
+      parameters:
+      - name: 'id'
+        type: string
+        in: 'path'
+        required: true
+        description: 'Id of a user'
+      responses:
+        '200':
+          description: OK
+          schema:
+              $ref: '#/definitions/Users'
+        '404':
+          description: 'User not found'
+        '500':
+          description: 'Internal server Error'
+    delete:
+      tags:
+       - 'users'
+      summary: 'Delete one user.'
+      parameters:
+      - name: 'id'
+        type: string
+        in: 'path'
+        required: true
+        description: 'Id of a user'
+      responses:
+        '201':
+          description: 'Deleted'
+        '404':
+          description: 'User not found'
+        '500':
+          description: 'Internal server Error'
+    put:
+      tags:
+       - 'users'
+      summary: 'Edit one user register.'
+      parameters:
+      - in: body
+        name: body
+        description: ''
+        required: true
+        schema:
+          $ref: '#/definitions/Users'
+      responses:
+        '201':
+          description: 'Created'
+        '404':
+          description: 'User not found'
+        '500':
+          description: 'Internal server Error'
+
+
+definitions:
+  Users:
+    type: 'object'
+    properties:
+      id:
+        type: 'string'
+        example: '05bfe77f-c7ba-4eb1-8b16-329dd327747f'
+      full_name:
+        type: 'string'
+        example: 'Daniel da Conceição'
+      birthdate:
+        type: 'string'
+        example: '04/04/1998'
+      email:
+        type: 'string'
+        example: 'marques.daniel@email.com'
+
+  UsersRegister:
+    type: 'object'
+    properties:
+      full_name:
+        type: 'string'
+        example: 'Daniel da Conceição'
+      birthdate:
+        type: 'string'
+        example: '04/04/1998'
+      email:
+        type: 'string'
+        example: 'marques.daniel@email.com'
+      password:
+        type: 'string'
+        example: '1234'
+
+  UsersLogin:
+    type: 'object'
+    properties:
+      email:
+        type: 'string'
+        example: 'daniel.marques@email.com'
+      password:
+        type: 'string'
+        example: '1234'
