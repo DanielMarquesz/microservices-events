@@ -7,9 +7,98 @@ basePath: /
 schemes:
   - http
 tags:
+- name: to-do
 - name: users
-  description: Service responsable for management of all users.
+  description: Service responsable for management of tasks of users.
 paths:
+  /to-do:
+    get:
+      tags:
+       - 'to-do'
+      summary: 'List all tasks in the service.'
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items: 
+              $ref: '#/definitions/ToDo'
+        '500':
+          description: 'Internal server Error'
+    post:
+      tags:
+       - 'to-do'
+      summary: 'Create a new task in the service.'
+      parameters:
+      - in: body
+        name: body
+        description: ''
+        required: true
+        schema:
+          $ref: '#/definitions/ToDoRegister'
+      responses:
+        '201':
+          description: 'Created'
+        '400':
+          description: 'Validation error'
+        '500':
+          description: 'Internal server Error'
+
+  /to-do/id:
+    get:
+      tags:
+       - 'to-do'
+      summary: 'List one specific task by id.'
+      parameters:
+      - name: 'id'
+        type: string
+        in: 'path'
+        required: true
+        description: 'Id of a user'
+      responses:
+        '200':
+          description: OK
+          schema:
+              $ref: '#/definitions/ToDo'
+        '404':
+          description: 'User not found'
+        '500':
+          description: 'Internal server Error'
+    delete:
+      tags:
+       - 'to-do'
+      summary: 'Delete one task by id.'
+      parameters:
+      - name: 'id'
+        type: string
+        in: 'path'
+        required: true
+        description: 'Id of a task'
+      responses:
+        '201':
+          description: 'Deleted'
+        '404':
+          description: 'Task not found'
+        '500':
+          description: 'Internal server Error'
+    put:
+      tags:
+       - 'to-do'
+      summary: 'Edit one task.'
+      parameters:
+      - in: body
+        name: body
+        description: ''
+        required: true
+        schema:
+          $ref: '#/definitions/ToDo'
+      responses:
+        '201':
+          description: 'Created'
+        '404':
+          description: 'Task not found'
+        '500':
+          description: 'Internal server Error'
   /users:
     get:
       tags:
@@ -63,7 +152,7 @@ paths:
         '500':
           description: 'Internal server Error'
 
-  /users/{id}:
+  /users/id:
     get:
       tags:
        - 'users'
@@ -121,6 +210,31 @@ paths:
 
 
 definitions:
+  ToDo:
+    type: 'object'
+    properties:
+      name:
+        type: 'string'
+        example: 'Limpar a casa'
+      description:
+        type: 'string'
+        example: 'Utilizar veja multiuso'
+      done:
+        type: boolean
+        example: false
+
+  ToDoRegister:
+    type: 'object'
+    properties:
+      name:
+        type: 'string'
+        example: 'Limpar a casa'
+      description:
+        type: 'string'
+        example: 'Utilizar veja multiuso'
+      done:
+        type: boolean
+        example: false
   Users:
     type: 'object'
     properties:
